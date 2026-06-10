@@ -1,0 +1,2 @@
+site="https://archive.xfce.org/src/panel-plugins/xfce4-mount-plugin/"
+pattern="href=\"\K[0-9.]+(?=/\"|/)"
