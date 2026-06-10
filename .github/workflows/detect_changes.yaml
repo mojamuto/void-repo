@@ -60,11 +60,11 @@ jobs:
 
           if [ -z "$latest_tag" ]; then
             echo "No previous release found, using previous commit"
-            if git rev-parse mojamuto/main~1 >/dev/null 2>&1; then
-              latest_sha=$(git rev-list --max-count=1 mojamuto/main~1)
+            if git rev-parse overlay/main~1 >/dev/null 2>&1; then
+              latest_sha=$(git rev-list --max-count=1 overlay/main~1)
             else
               # First commit fallback
-              latest_sha=$(git rev-list --max-parents=0 mojamuto/main)
+              latest_sha=$(git rev-list --max-parents=0 overlay/main)
             fi
           else
             latest_sha=$(git rev-list --max-count=1 "$latest_tag")
