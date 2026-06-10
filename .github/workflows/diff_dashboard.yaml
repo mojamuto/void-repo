@@ -1,0 +1,59 @@
+name: Diff Dashboard
+
+on:
+  workflow_call:
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/void-linux/void-buildroot-glibc:20251206R1
+      options: --platform linux/amd64
+
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: repo-tree
+          path: .
+
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: signed-repo-*
+          merge-multiple: true
+          path: repo
+
+      - name: Install tools
+        run: |
+          xbps-install -Syu xbps
+          # xbps-install -yu
+          xbps-install -y xtools
+
+      - name: Generate diff
+        env:
+          DIFF: "diff --unified=0 --report-identical-files --suppress-common-lines --color=always --label REPO --label BUILT"
+        run: |
+          echo "## 📦 Package Changes (xpkgdiff)" > diff.md
+          touch diff.md
+
+          for arch in x86_64 x86_64-musl; do
+            for newpkg in repo/${arch}/*.xbps; do
+              [ -e "$newpkg" ] || continue
+              base=$(basename "$newpkg")
+              name=${base%-[0-9]*}
+              oldpkg=$(ls oldrepo/${arch}/${name}-*.xbps 2>/dev/null || true)
+              [ -n "$oldpkg" ] || continue
+
+              filediff=$(xpkgdiff -a ${arch} -R https://github.com/${{ github.repository }}/releases/latest/download/ -f "$newpkg" || true)
+              metadiff=$(xpkgdiff -a ${arch} -R https://github.com/${{ github.repository }}/releases/latest/download/ -S "$newpkg" || true)
+              depdiff=$(xpkgdiff -a ${arch} -R https://github.com/${{ github.repository }}/releases/latest/download/ -x "$newpkg" || true)
+
+              printf "File Diff av %s (%s):\n```\n%s```\n" ${name} ${arch} ${filediff} >> diff.md
+              printf "Metadata Diff av %s (%s):\n```\n%s```\n" ${name} ${arch} ${metadiff} >> diff.md
+              printf "Dependency Diff av %s (%s):\n```\n%s```\n" ${name} ${arch} ${depdiff} >> diff.md
+            done
+          done
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: diff-md
+          path: diff.md

@@ -1,0 +1,19 @@
+# Template file for 'xfce4-mount-plugin'
+pkgname=xfce4-mount-plugin
+version=1.2.0
+revision=1
+build_style=gnu-configure
+configure_args="--with-locales-dir=/usr/share/locale"
+hostmakedepends="pkg-config gettext gettext-devel automake autoconf libtool xfce4-dev-tools"
+makedepends="xfce4-panel-devel glibc-devel"
+short_desc="Mount/umount utility for the Xfce4 panel"
+maintainer="Ishaan Bhimwal <ishaanbhimwal@protonmail.com>"
+license="GPL-2.0-or-later"
+homepage="https://goodies.xfce.org/projects/panel-plugins/xfce4-mount-plugin"
+changelog="https://gitlab.xfce.org/panel-plugins/xfce4-mount-plugin/-/raw/master/NEWS"
+distfiles="https://archive.xfce.org/src/panel-plugins/xfce4-mount-plugin/${version%.*}/xfce4-mount-plugin-${version}.tar.xz"
+checksum=adef71a83078e7dc45997e57411f8c43080a0204159a8b8db2ade0a9877e7b4c
+
+pre_configure() {
+    autoreconf -fi
+}

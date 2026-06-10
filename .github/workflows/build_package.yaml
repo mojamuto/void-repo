@@ -1,0 +1,119 @@
+name: Build Package
+
+on:
+  workflow_call:
+    inputs:
+      package:
+        required: true
+        type: string
+      artifact-name:
+        description: "Name of the artifact containing source.tgz"
+        required: true
+        type: string
+      arch:
+        required: true
+        type: string
+      libc:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: .
+
+      - name: Unpack merged repo
+        run: tar xzf source.tgz --strip-components=1
+
+      - name: Restore distfiles cache
+        uses: actions/cache@v5
+        with:
+          path: hostdir/distfiles
+          key: distfiles-${{ inputs.arch }}
+          restore-keys: |
+            distfiles-${{ inputs.arch }}
+
+      - name: Build
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/work \
+            -v /dev:/dev \
+            --platform linux/amd64 \
+            --privileged \
+            --entrypoint=/bin/sh \
+            ghcr.io/void-linux/void-${{ inputs.libc }}-full:20250616R1 \
+            -c '
+            # switch to repo-ci mirror
+            mkdir -p /etc/xbps.d && cp /usr/share/xbps.d/*-repository-*.conf /etc/xbps.d/
+            sed -i '\''s|repo-default|repo-ci|g'\'' /etc/xbps.d/*-repository-*.conf
+            # install dependencies
+            xbps-install -Syu xbps && xbps-install -yu && xbps-install -y sudo bash grep curl git jq zip unzip github-cli xtools
+            # create non-root user
+            useradd -G xbuilder -M builder
+
+            cd /work
+            chown -R builder:builder .
+            sudo -Eu builder common/travis/set_mirror.sh
+            sudo -Eu builder common/travis/prepare.sh
+
+            echo "${{ inputs.package }}" > /tmp/templates
+            sudo -Eu builder common/travis/build.sh "${{ inputs.arch }}" "${{ inputs.arch }}"
+            exit=$?
+            sudo -Eu builder xbarf > byggloggen.log
+            exit $exit
+            '
+
+      # - name: Build
+      #   uses: maus007/docker-run-action-fork@207a4e2a8ebf7e4b985656ba990b1e53715dce2a
+      #   with:
+      #     image: ghcr.io/void-linux/void-${{ inputs.libc }}-full:20250616R1
+      #     options: -v ${{ github.workspace }}:/work -v /dev:/dev --platform linux/amd64 --privileged
+      #     run: |
+      #       # switch to repo-ci mirror
+      #       mkdir -p /etc/xbps.d && cp /usr/share/xbps.d/*-repository-*.conf /etc/xbps.d/
+      #       sed -i 's|repo-default|repo-ci|g' /etc/xbps.d/*-repository-*.conf
+      #       # install dependencies
+      #       xbps-install -Syu xbps && xbps-install -yu && xbps-install -y sudo bash grep curl git jq zip unzip github-cli
+      #       # create non-root user
+      #       useradd -G xbuilder -M builder
+
+      #       cd /work
+      #       chown -R builder:builder .
+      #       sudo -Eu builder common/travis/set_mirror.sh
+      #       sudo -Eu builder common/travis/prepare.sh
+
+      #       echo "${{ inputs.package }}" > /tmp/templates
+      #       sudo -Eu builder common/travis/build.sh "${{ inputs.arch }}" "${{ inputs.arch }}"
+
+      - name: Upload logs on failure
+        if: failure()
+        id: uploadlogs
+        uses: actions/upload-artifact@v7
+        with:
+          name: logs-${{ inputs.package }}-${{ inputs.libc }}
+          path: byggloggen.log
+          retention-days: 7
+
+      - name: Add failure to summary
+        if: failure()
+        run: |
+          {
+            echo "### ❌ Package Build Failed"
+            echo ""
+            echo "| Package | Libc | Logs |"
+            echo "|---------|------|------|"
+            echo "| \`${{ inputs.package }}\` | \`${{ inputs.libc }}\` | [View logs](${{ steps.uploadlogs.outputs.artifact-url }}) |"
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload package
+        if: success()
+        uses: actions/upload-artifact@v7
+        with:
+          name: built-${{ inputs.package }}-${{ inputs.arch }}
+          path: hostdir/binpkgs/*.xbps
