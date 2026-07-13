@@ -1,6 +1,6 @@
 # Template file for 'gram'
 pkgname=gram
-version=2.1.2
+version=3.1.0
 revision=1
 build_style=cargo
 build_helper=rust
@@ -16,7 +16,7 @@ license="GPL-3.0-or-later, AGPL-3.0-or-later, Apache-2.0"
 homepage="https://codeberg.org/GramEditor/gram"
 changelog="https://codeberg.org/GramEditor/gram/releases"
 distfiles="https://codeberg.org/GramEditor/gram/archive/${version}.tar.gz"
-checksum=58883c8dce2099445de6db819fa2ce678c0a5e2b572b3fb3d16dd1602eb44087
+checksum=6e78411633bee0a20f3c1c9485bd32d2815fcf93dc12670461d3f6eb3e451426
 
 export RELEASE_VERSION="$version"
 
