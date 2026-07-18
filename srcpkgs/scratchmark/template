@@ -1,11 +1,11 @@
 # Template file for 'scratchmark'
 pkgname=scratchmark
 version=1.9.0
-revision=2
+revision=3
 build_style=cargo
 hostmakedepends="pkg-config"
 makedepends="gtk4-devel libadwaita-devel gtksourceview5-devel libspelling-devel"
-depends="gtk4 libadwaita"
+depends="gtk4 libadwaita gtksourceview5 libspelling"
 short_desc="Organized markdown editor"
 maintainer="Tu Nombre <tu@email.com>"
 license="GPL-3.0-or-later"
@@ -16,4 +16,10 @@ checksum=2e68f0db8ff72749ff11a927e97ff72c746d3714633971b868befd46d05f74fb
 post_install() {
 	vmkdir usr/share/glib-2.0/schemas
 	vcopy data/org.scratchmark.Scratchmark.gschema.xml usr/share/glib-2.0/schemas/
+
+	vmkdir usr/share/applications
+	vcopy data/org.scratchmark.Scratchmark.desktop.in usr/share/applications/org.scratchmark.Scratchmark.desktop
+
+	vmkdir usr/share/icons/hicolor/scalable/apps
+	vcopy data/icons/hicolor/scalable/apps/org.scratchmark.Scratchmark.svg usr/share/icons/hicolor/scalable/apps/
 }
