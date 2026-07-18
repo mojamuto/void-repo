@@ -12,3 +12,8 @@ license="GPL-3.0-or-later"
 homepage="https://github.com/sevonj/scratchmark"
 distfiles="https://github.com/sevonj/scratchmark/archive/refs/tags/v${version}.tar.gz"
 checksum=2e68f0db8ff72749ff11a927e97ff72c746d3714633971b868befd46d05f74fb
+
+post_install() {
+	vmkdir usr/share/glib-2.0/schemas
+	vcopy data/org.scratchmark.Scratchmark.gschema.xml usr/share/glib-2.0/schemas/
+}
