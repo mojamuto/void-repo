@@ -1,8 +1,9 @@
 # Template file for 'link-grammar'
 pkgname=link-grammar
 version=5.13.0
-revision=1
+revision=2
 build_style=gnu-configure
+hostmakedepends="pkg-config"
 short_desc="CMU Link Grammar natural language parser"
 maintainer="Tu Nombre <tu@email.com>"
 license="LGPL-2.1-only"
