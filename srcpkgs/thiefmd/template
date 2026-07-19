@@ -1,7 +1,7 @@
 # Template file for 'thiefmd'
 pkgname=thiefmd
 version=0.3.2
-revision=2
+revision=3
 build_style=meson
 hostmakedepends="pkg-config gettext glib-devel vala"
 makedepends="
@@ -12,7 +12,6 @@ makedepends="
  libwebkit2gtk41-devel
  sqlite-devel
 "
-depends="webkit2gtk"
 short_desc="Markdown editor focused on writing"
 maintainer="Tu Nombre <tu@email.com>"
 license="GPL-3.0-or-later"
