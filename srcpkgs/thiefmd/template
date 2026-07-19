@@ -17,7 +17,7 @@ makedepends="
  gtksourceview5-devel
  libgee-devel
  libmarkdown2-devel
- libwebkit2gtk41-devel
+ libwebkitgtk60-devel
  sqlite-devel
  link-grammar-devel
  libspelling-devel
