@@ -21,6 +21,7 @@ makedepends="
  sqlite-devel
  link-grammar-devel
  libspelling-devel
+ libarchive-devel
 "
 
 short_desc="Markdown editor focused on writing"
