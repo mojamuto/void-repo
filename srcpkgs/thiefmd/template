@@ -9,7 +9,7 @@ makedepends="
  gtksourceview5-devel
  libgee-devel
  granite7-devel
- webkit2gtk-4.1-devel
+ libwebkit2gtk41-devel
  sqlite-devel
 "
 depends="webkit2gtk"
