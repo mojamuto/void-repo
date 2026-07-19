@@ -22,6 +22,7 @@ makedepends="
  link-grammar-devel
  libspelling-devel
  libarchive-devel
+  libsecret-devel
 "
 
 short_desc="Markdown editor focused on writing"
