@@ -19,7 +19,6 @@ makedepends="
  libmarkdown2-devel
  libwebkit2gtk41-devel
  sqlite-devel
- link-grammar-devel
 "
 
 short_desc="Markdown editor focused on writing"

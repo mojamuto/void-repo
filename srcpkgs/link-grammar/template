@@ -1,0 +1,22 @@
+# Template file for 'link-grammar'
+pkgname=link-grammar
+version=5.13.0
+revision=1
+build_style=gnu-configure
+short_desc="CMU Link Grammar natural language parser"
+maintainer="Tu Nombre <tu@email.com>"
+license="LGPL-2.1-only"
+homepage="https://www.abisource.com/projects/link-grammar/"
+distfiles="https://www.gnucash.org/link-grammar/downloads/${version}/link-grammar-${version}.tar.gz"
+checksum=e6a0c905dfb175f35979f0350a0cf3c67cb38a6819d9f2b73c684dfe72a941df
+
+# Aquí es donde se genera automáticamente el paquete -devel
+link-grammar-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/pkgconfig
+		vmove "usr/lib/*.so"
+	}
+}
