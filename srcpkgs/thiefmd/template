@@ -20,6 +20,7 @@ makedepends="
  libwebkit2gtk41-devel
  sqlite-devel
  link-grammar-devel
+ libspelling-devel
 "
 
 short_desc="Markdown editor focused on writing"
