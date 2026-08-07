@@ -1,0 +1,28 @@
+# Template file for 'f3d'
+pkgname=f3d
+version=3.5.0
+revision=1
+build_style=cmake
+configure_args="
+ -DF3D_BUILD_APPLICATION=ON
+ -DF3D_PLUGINS_STATIC_BUILD=ON
+ -DF3D_BINDINGS_PYTHON=OFF
+ -DF3D_MODULE_EXR=ON
+ -DF3D_MODULE_WEBP=ON
+ -DF3D_PLUGIN_BUILD_ASSIMP=OFF
+ -DF3D_PLUGIN_BUILD_OCCT=ON
+ -DF3D_PLUGIN_BUILD_ALEMBIC=ON
+ -DF3D_PLUGIN_BUILD_DRACO=ON
+ -DF3D_PLUGIN_BUILD_HDF=ON
+"
+hostmakedepends="cmake ninja pkg-config"
+makedepends="vtk-devel libassimp-devel occt-devel alembic-devel draco-devel
+ libopenexr-devel libwebp-devel libX11-devel libXext-devel libXrandr-devel
+ libXcursor-devel libXi-devel libXinerama-devel MesaLib-devel glu-devel"
+short_desc="Fast and minimalist 3D viewer with full format support"
+maintainer="Tu Nombre <tu@email.com>"
+license="Apache-2.0"
+homepage="https://f3d.app"
+changelog="https://raw.githubusercontent.com/f3d-app/f3d/main/CHANGELOG.md"
+distfiles="https://github.com/f3d-app/f3d/archive/refs/tags/v${version}.tar.gz"
+checksum=033845b5d49af3ae60fcc3fe85d82c841d990d3534638a4472123f84b3e82795
