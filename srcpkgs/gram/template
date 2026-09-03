@@ -16,7 +16,7 @@ license="GPL-3.0-or-later, AGPL-3.0-or-later, Apache-2.0"
 homepage="https://codeberg.org/GramEditor/gram"
 changelog="https://codeberg.org/GramEditor/gram/releases"
 distfiles="https://codeberg.org/GramEditor/gram/archive/${version}.tar.gz"
-checksum=9b970939f45866bef819acddf9cf6744e3ad7de17037a3feeab1b0501ea9592e
+checksum=eda5c167ed2c29ebd03310b236a06f3f29fd0007be3c58bd341992e52f765629
 
 export RELEASE_VERSION="$version"
 
