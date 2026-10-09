@@ -17,5 +17,16 @@ checksum=fd61b7194163d337b4b43dd1a96ca1c732e7a8b3cdc0e636275ce2d1c5c98c8f
 post_install() {
 	vinstall crates/favnyr-gui/assets/favnyr.svg 644 \
 		usr/share/icons/hicolor/scalable/apps
-	vinstall ${FILESDIR}/favnyr.desktop 644 usr/share/applications
+	vmkdir usr/share/applications
+	printf '%s\n' \
+		'[Desktop Entry]' \
+		'Type=Application' \
+		'Name=Favnyr' \
+		'GenericName=File Manager' \
+		'Comment=A modern and lightweight file manager' \
+		'Exec=favnyr' \
+		'Icon=favnyr' \
+		'Terminal=false' \
+		'Categories=System;FileManager;Utility;' \
+		> ${DESTDIR}/usr/share/applications/favnyr.desktop
 }
