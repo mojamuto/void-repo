@@ -12,7 +12,7 @@ short_desc="Modern and lightweight file manager written in Rust with Slint"
 license="GPL-3.0-or-later"
 homepage="https://github.com/GlitchAwakened/Favnyr"
 distfiles="https://github.com/GlitchAwakened/Favnyr/archive/refs/tags/v${version}.tar.gz"
-checksum=7edd0c90ce03cf532af9bad7d920876a0b008884ae608b85d2fdaeee50217e49
+checksum=fd61b7194163d337b4b43dd1a96ca1c732e7a8b3cdc0e636275ce2d1c5c98c8f
 
 post_install() {
 	vinstall crates/favnyr-gui/assets/favnyr.svg 644 \
