@@ -1,0 +1,21 @@
+# Template file for 'favnyr'
+pkgname=favnyr
+version=0.3.4
+revision=1
+build_style=cargo
+make_build_args="-p favnyr-gui"
+make_install_args="--path crates/favnyr-gui"
+hostmakedepends="pkg-config"
+makedepends="fontconfig-devel"
+depends="fontconfig libxkbcommon wayland libX11 libXcursor libXrandr libXi libxcb libGL libEGL vulkan-loader xdg-utils ffmpeg poppler-utils"
+short_desc="Modern and lightweight file manager written in Rust with Slint"
+license="GPL-3.0-or-later"
+homepage="https://github.com/GlitchAwakened/Favnyr"
+distfiles="https://github.com/GlitchAwakened/Favnyr/archive/refs/tags/v${version}.tar.gz"
+checksum=7edd0c90ce03cf532af9bad7d920876a0b008884ae608b85d2fdaeee50217e49
+
+post_install() {
+	vinstall crates/favnyr-gui/assets/favnyr.svg 644 \
+		usr/share/icons/hicolor/scalable/apps
+	vinstall ${FILESDIR}/favnyr.desktop 644 usr/share/applications
+}
