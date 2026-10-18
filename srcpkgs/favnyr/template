@@ -1,6 +1,6 @@
 # Template file for 'favnyr'
 pkgname=favnyr
-version=0.3.5
+version=0.3.6
 revision=1
 build_style=cargo
 make_build_args="-p favnyr-gui"
@@ -12,7 +12,7 @@ short_desc="Modern and lightweight file manager written in Rust with Slint"
 license="GPL-3.0-or-later"
 homepage="https://github.com/GlitchAwakened/Favnyr"
 distfiles="https://github.com/GlitchAwakened/Favnyr/archive/refs/tags/v${version}.tar.gz"
-checksum=89358851a0ce51d583ab5054a86ce7417c5b77748df93f1b17ffe4280e03099f
+checksum=c6a62bbd93380609c2a9e4c3a3a8346a0975ba6bec0a97677f3da15f19dd782c
 
 post_install() {
 	vinstall crates/favnyr-gui/assets/favnyr.svg 644 \
